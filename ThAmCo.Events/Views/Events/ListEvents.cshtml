@@ -1,0 +1,127 @@
+﻿@model IEnumerable<ThAmCo.Events.Models.EventViewModels.EventVM>
+
+@{
+    ViewData["Title"] = "ListEvents";
+}
+
+<h1>Events</h1>
+
+<p>
+    <a asp-action="CreateEvent">Create Event</a>
+</p>
+@foreach (var item in Model)
+{
+    <div style="float:left">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.Label("Event ID")
+                    </th>
+                    <th>
+                        @Html.Label("Title")
+                    </th>
+                    <th>
+                        @Html.Label("Date")
+                    </th>
+                    <th>
+                        @Html.Label("Type")
+                    </th>
+                    <th>
+                        @Html.Label("Venue Reservation ID")
+                    </th>
+                    <th>
+                        @Html.Label("FoodBooking ID")
+                    </th>
+                    <th>
+                        @Html.Label("First Aider")
+                    </th>
+                    <th>
+                        @Html.Label("Required Staff")
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EventType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Reservation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FoodBooking)
+                    </td>
+                    <td>
+                        @(item.FirstAiderAssigned ? "Ok!" : "No First Aider Assigned!")
+                    </td>
+                    <td>
+                        @(item.AssignedStaff.Count < item.Guests.Count / 10 ? "Not enough staff!" : "Ok!")
+                    </td>
+                    <table class=" table sub-table">
+                        <thead>
+                            <tr>
+                                <th >
+                                    @Html.DisplayNameFor(modelItem => item.AssignedStaff)
+                                </th>
+                                <th>
+                                    @Html.Label("First Aider")
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @for (int i = 0; i < item.AssignedStaff.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AssignedStaff[i].Name)
+                                    </td>
+                                    <td>
+                                        @(item.AssignedStaff[i].IsFirstAider ? "Yes" : "No")
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <table class="table sub-table">
+                        <thead >
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(modelItem => item.Guests)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < item.Guests.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Guests[i].Name)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div style="float:left; width:100%;">
+        <a asp-action="EditEvent" asp-route-id="@item.Id">Edit</a> |
+        <a asp-action="EventDetails" asp-route-id="@item.Id">Details</a> |
+        <a asp-action="DeleteEvent" asp-route-id="@item.Id">Delete</a>
+        <div class="row-seperator" />
+    </div>
+
+}

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ThAmCo.Events.Models.CateringDTOs.FoodItemDTO>
+
+@{
+    ViewData["Title"] = "ListFoodItems";
+}
+
+@{
+    <h1>All Food Items</h1>
+}
+
+@{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(fi => fi.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(fi => fi.Price)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        £@Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        <a asp-action="EditFoodItem" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="FoodItemDetails" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="DeleteFoodItem" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    <p>
+        <a asp-action="CreateFoodItem">Create New</a>
+    </p>
+}

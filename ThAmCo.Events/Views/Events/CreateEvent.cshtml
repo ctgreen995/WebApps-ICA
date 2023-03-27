@@ -1,0 +1,68 @@
+﻿@model ThAmCo.Events.Models.EventViewModels.CreateEventVM
+
+
+<h2>Create Event</h2>
+
+<div class="row">
+    <div class="col-md-10">
+        <form id="form" action="@Url.Action("CreateEvent", "Events")" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <dt class="form-group">
+            <label asp-for="Title" class="control-label"></label>
+            <input asp-for="Title" class="form-control" name="Title", required />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </dt>
+        <dt class="form-group">
+            <label asp-for="EventTypes" class="control-label"></label>
+                @Html.DropDownListFor(model => model.SelectedEventType, Model.EventTypes,"-- Select an Event Type --", new {@class="form-control", name="SelectedEventType", @required = "required"})
+        </dt>
+        <div>
+            <div class="form-group">
+                <label asp-for="BeginDate" class="control-label"></label>
+
+                    @Html.EditorFor(model => model.BeginDate, new { @class = "form-control", type = "date", name="BeginDate", @required = "required"})
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+
+                    @Html.EditorFor(model => model.EndDate, new { @class = "form-control", type = "date", name="EndDate", @required = "required"})
+            </div>
+            <input type="button" id="submitDates" value="Get Availabile Venues" class="btn" />
+        </div>
+        <div class="form-group">
+            <h4>Venue:</h4>
+            <span>Select an available venue from the dropdown to display venue details.</span>
+                @Html.DropDownListFor(model => model.SelectedAvailability, Model.Availability, "--Select A Venue--", new {@class="form-control", name="SelectAvailability", @required = "required"})
+            <div id="venueDescription">
+            </div>
+        </div>
+        <h4 id="eventDate" class="form-group">Event Date:</h4>
+        <span>Select an available venue to reserve an event date.</span>
+        <input asp-for="EventDate" class="form-control" name="EventDate" readonly="@(true)" />
+        <h4>Guests:</h4>
+        <label asp-for="NumberOfGuests" class="control-label"></label>
+        <input asp-for="NumberOfGuests" type="number" id="numberOfGuestsSelector" name="numberOfGuests" />
+        <div class="form-group">
+            <h4>Catering:</h4>
+                @Html.DropDownListFor(model => model.SelectedMenu, Model.AvailableMenus, new {@class="form-control", name="SelectedMenu"})
+        </div>
+        <div id="foodItems">
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Submit" id="submitForm" />
+        </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ListEvents">Back to List</a>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>window.Model = @Html.Raw(Json.Serialize(Model));</script>
+    <script type="text/javascript" src="~/js/Events/CreateEvent/CreateEventVenue.js"></script>
+    <script type="text/javascript" src="~/js/Events/CreateEvent/CreateEventMenu.js"></script>
+}
+

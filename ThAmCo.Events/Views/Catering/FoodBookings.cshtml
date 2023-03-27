@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ThAmCo.Events.Models.CateringDTOs.FoodBookingDTO>
+
+@{
+    ViewData["Title"] = "FoodBookingsPartial";
+}
+
+@{
+    <h1>All Food Bookings</h1>
+}
+
+@{
+    <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                    @Html.DisplayNameFor(m => m.ClientReferenceId)
+                        </th>
+                        <th>
+                    @Html.DisplayNameFor(m => m.NumberOfGuests)
+                        </th>
+                        <th>
+                    @Html.DisplayNameFor(m => m.MenuId)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model)
+            {
+                            <tr>
+                                <td>
+                        @Html.DisplayFor(modelItem => item.ClientReferenceId)
+                                </td>
+                                <td>
+                        @Html.DisplayFor(modelItem => item.NumberOfGuests)
+                                </td>
+                                <td>
+                        @Html.DisplayFor(modelItem => item.MenuId)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item">Delete</a>
+                                </td>
+                            </tr>
+            }
+                </tbody>
+    </table>
+
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}

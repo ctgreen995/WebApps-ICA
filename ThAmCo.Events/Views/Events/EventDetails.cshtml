@@ -1,0 +1,109 @@
+﻿@model ThAmCo.Events.Models.EventViewModels.EventDetailsVM
+
+<div>
+    <h3>Event Details</h3>
+    <hr />
+    <form asp-action="RegisterAttendance" asp-controller="Events" method="post">
+        <div class="form-group">
+            <label asp-for="Id"></label>
+            <input asp-for="Id" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="Date"></label>
+            <input asp-for="Date" class="form-control" readonly />
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EventType"></label>
+            <input asp-for="EventType" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="VenueCode"></label>
+            <input asp-for="VenueCode" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="StaffId"></label>
+            <input asp-for="StaffId" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="FoodBooking"></label>
+            <input asp-for="FoodBooking" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="WhenMade"></label>
+            <input asp-for="WhenMade" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="TotalNumberOfGuests"></label>
+            <input asp-for="TotalNumberOfGuests" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="AttendedGuests"></label>
+            <input asp-for="AttendedGuests" class="form-control" readonly />
+        </div>
+        <table class="table sub-table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Guests)
+                    </th>
+                    <th>
+                        @Html.Label("Attended")
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Guests.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.Guests[i].GuestName)
+                            @Html.HiddenFor(modelItem => Model.Guests[i].GuestId)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(modelItem => Model.Guests[i].Attended)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <table class="table sub-table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Staff)
+                    </th>
+                    <th>
+                        @Html.Label("First Aider")
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Staff.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.Staff[i].Name)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(modelItem => Model.Staff[i].IsFirstAider)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <input type="submit" class="btn btn-primary" value="Save Attendance" />
+    </form>
+</div>
+<div>
+    <a asp-action="ListEvents">Back to List</a>
+</div>
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>window.Model = @Html.Raw(Json.Serialize(Model));</script>
+    <script src="~/js/Events/EventDetailsAttendance.js"></script>
+}

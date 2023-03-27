@@ -1,0 +1,83 @@
+﻿@model ThAmCo.Events.Models.CateringViewModels.EditMenuVM
+
+<h1>Edit Menu</h1>
+
+<form id="form" action="@Url.Action("EditMenu", "Catering")" method="post">
+    <div class="col-md-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.HiddenFor(model => model.MenuID)
+        <div>
+            @Html.LabelFor(model => model.MenuName)
+            <input asp-for="MenuName" class="form-control" />
+            <span asp-validation-for="MenuName" class="text-danger"></span>
+        </div>
+
+        @Html.Label("Menu Food Items")
+        <div>
+            @Html.ListBox("MenuFoodItems",  Model.MenuFoodItems, htmlAttributes: new{@class="form-control menuItems"})
+            <input type="button" class="btn btn-outline-secondary" name="remove" id="remove" value="Remove Item From Menu" />
+        </div>
+
+        @Html.Label("Available Food Items")
+        <div>
+            @Html.ListBox("FoodItems", Model.FoodItems, htmlAttributes: new{@class="form-control availableItems"})
+            <input type="button" class="btn btn-outline-secondary" name="add" id="add" value="Add Item To Menu" />
+        </div>
+        <button type="submit" class="btn btn-primary" id="submitForm">Save</button>
+    </div>
+</form>
+<div>
+    <a asp-action="ListMenus">Back to List</a>
+</div>
+
+@section Scripts {
+
+    <script>
+        $(function () {
+
+            $(document)
+                .on("click", "#add", function () {
+                    $(".availableItems :selected").remove().appendTo(".menuItems");
+                })
+                .on("click", "#remove", function () {
+                    $(".menuItems :selected").remove().appendTo(".availableItems");
+                })
+        });
+        $(function () {
+
+            function updateSelectedMenuFoodItems() {
+                var selectedValues = [];
+                $(".menuItems option").each(function () {
+                    selectedValues.push($(this).val());
+                });
+                return selectedValues;
+            }
+
+            var form = $("#form")
+
+            form.submit(function () {
+
+                event.preventDefault();
+
+                var formData = {
+                    MenuID: $("#MenuID").val(),
+                    MenuName: $("#MenuName").val(),
+                    MenuFoodItems: updateSelectedMenuFoodItems()
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: form.attr("action"),
+                    data: formData,
+                    success: function (response) {
+                        alert("Menu saved.")
+                        location.href = '../../Catering/ListMenus'
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert(jqXHR.status + ' ' + errorThrown + '\n\nFailed to edit Menu.');
+                    },
+                });
+            });
+        });
+    </script>
+}

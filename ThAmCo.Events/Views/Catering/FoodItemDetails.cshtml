@@ -1,0 +1,31 @@
+﻿@model ThAmCo.Events.Models.CateringDTOs.FoodItemDTO
+
+@{
+    ViewData["Title"] = "FoodItemDetails";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Food Item Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="EditFoodItem" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="DeleteFoodItem" asp-route-id="@Model?.Id">Delete</a> |
+    <a asp-action="ListFoodItems">Back to List</a>
+</div>

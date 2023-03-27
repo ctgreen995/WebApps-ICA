@@ -1,0 +1,97 @@
+﻿@model ThAmCo.Events.Models.EventViewModels.EditEventVM
+
+<h1>Edit</h1>
+
+<h4>Event</h4>
+<hr />
+<div class="row">
+    <div>
+        <form id='form' asp-action="EditEvent" asp-controller="Events" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-md-4">
+                <label asp-for="EventId" class="control-label"></label>
+                <input asp-for="EventId" class="form-control" readonly="@(true)" />
+                <span asp-validation-for="EventId" class="text-danger"></span>
+
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+
+                <label asp-for="EventDate" class="control-label"></label>
+                <input asp-for="EventDate" class="form-control" readonly="@(true)" />
+
+                <label asp-for="EventType" class="control-label"></label>
+                <input asp-for="EventType" class="form-control" readonly="@(true)" />
+            </div>
+            <hr />
+            <div class="col-md-4">
+                <h4>Venue:</h4>
+
+                <label asp-for="Reservation" class="control-label"></label>
+                <input asp-for="Reservation" class="form-control" readonly="@(true)" />
+                <input type="button" id="deleteReservation" class="btn btn-secondary" value="Delete Reservation" />
+
+                <div id="selectNewVenue" style="visibility: hidden">
+                    <span>Select an available venue to display venue details.</span>
+                    @Html.DropDownListFor(model => model.SelectedVenue, Model.AvailableVenuesSelector,"-- Select an Available Venue --", new {@class="form-control", id="VenuesSelector"})
+                    <div id="venueDescription"></div>
+                </div>
+
+            </div>
+            <hr />
+            <div class="col-md-4">
+                <h4>Guests:</h4>
+                <label asp-for="NumberOfGuests" class="control-label"></label>
+                <input asp-for="NumberOfGuests" type="number" id="numberOfGuestsSelector" />
+
+                @Html.LabelFor(e => e.AttendingGuests)
+
+                @Html.ListBox("AttendingGuests",  Model.AttendingGuests, htmlAttributes: new{@class="form-control attendingGuests"})
+                <input type="button" class="btn btn-outline-secondary" name="removeGuest" id="removeGuest" value="Remove From Attending Events" />
+
+                @Html.LabelFor(e => e.AvailableGuests)
+
+                @Html.ListBox("AvailableGuests", Model.AvailableGuests, htmlAttributes: new{@class="form-control availableGuests"})
+                <input type="button" class="btn btn-outline-secondary" name="addGuest" id="addGuest" value="Add To Attending Events" />
+            </div>
+            <hr />
+            <div class="col-md-4">
+                <h4>Catering:</h4>
+
+                <label asp-for="FoodBooking" class="-control-label"></label>
+                <input asp-for="FoodBooking" class="form-control" readonly="@(true)" />
+                <input type="button" id="deleteFoodBooking" class="btn btn-secondary" value="Delete Food Booking" />
+
+                @Html.DropDownListFor(model => model.SelectedMenu, Model.AvailableMenusSelector, new {@class="form-control", id="MenuSelector", style="visibility: hidden", value=0})
+
+                <div id="foodItems"></div>
+            </div>
+            <hr />
+            <div class="col-md-4">
+                <h4>Staffing:</h4>
+                @Html.Label("Assigned Staff")
+                @Html.ListBox("AssignedStaff",  Model.AssignedStaff, htmlAttributes: new{@class="form-control assignedStaff"})
+                <input type="button" class="btn btn-outline-secondary" name="removeStaff" id="removeStaff" value="Remove Staff Member" />
+
+                @Html.Label("Available Staff")
+                @Html.ListBox("AvailableStaff", Model.AvailableStaff, htmlAttributes: new{@class="form-control availableStaff"})
+                <input type="button" class="btn btn-outline-secondary" name="addStaff" id="addStaff" value="Add Staff Member" />
+            </div>
+                <input type="submit" value="Save" class="btn btn-primary" />
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ListEvents">Back to List</a>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>window.Model = @Html.Raw(Json.Serialize(Model));</script>
+    <script type="text/javascript" src="~/js/Events/EditEvent/EditEventVenue.js"></script>
+    <script type="text/javascript" src="~/js/Events/EditEvent/EditEventMenu.js"></script>
+    <script type="text/javascript" src="~/js/Events/EditEvent/EditEventStaff.js"></script>
+    <script type="text/javascript" src="~/js/Events/EditEvent/EditEventGuests.js"></script>
+    <script type="text/javascript" src="~/js/Events/EditEvent/EditEventSubmit.js"></script>
+}

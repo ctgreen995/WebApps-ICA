@@ -1,0 +1,25 @@
+﻿@model ThAmCo.Events.Models.CateringViewModels.MenuDetailsVM
+
+<h1>Details</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MenuName)
+        </dt>
+        <div>
+            @Html.DisplayFor(model => model.MenuName)
+        </div>
+        <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.MenuFoodItems)
+        </dt>
+        <div>
+            @Html.ListBox("MenuFoodItems",  Model.MenuFoodItems, htmlAttributes: new{@class="form-control menuItems"})
+        </div>
+    </dl>
+</div>
+<div>
+    <a asp-action="EditMenu" asp-route-id="@Model?.MenuID">Edit</a> |
+    <a asp-action="DeleteMenu" asp-route-id="@Model?.MenuID">Delete</a> |
+    <a asp-action="ListMenus">Back to List</a>
+</div>
